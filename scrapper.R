@@ -51,7 +51,10 @@ while (encontrado) {
 ## Salva os links
 saveRDS(links, "dados/links.RDS")
 
-## Obtém corpo do texto, subtítulo e url da foto (quando disponíveis)
+## Carrega os conteúdos já obtidos
+contents <- readRDS("dados/contents.RDS")
+
+## Obtém corpo do texto, subtítulo, data e url da foto (quando disponíveis)
 for (i in 1:dim(links)[1]) {
   
   ### Toma a url do artigo
@@ -72,6 +75,11 @@ for (i in 1:dim(links)[1]) {
     rvest::html_element(".noticias-single__description") %>% 
     rvest::html_text()
   
+  ### Extrai a data do artigo
+  data <- artigo %>% 
+    rvest::html_element(".noticias-single__date") %>% 
+    rvest::html_text()
+  
   ### Extrai a url da foto
   foto <- artigo %>% 
     rvest::html_element(".noticias-single__image-source") %>% 
@@ -82,6 +90,7 @@ for (i in 1:dim(links)[1]) {
     href = url,
     subtitulo = subtitulo,
     corpo = corpo,
+    data = data,
     foto = foto
   )
   contents <- bind_rows(contents, contents_temp)
@@ -90,3 +99,4 @@ for (i in 1:dim(links)[1]) {
 
 ## Salva os conteúdos
 saveRDS(contents, "dados/contents.RDS")
+
