@@ -32,7 +32,9 @@ df <- read_rds("dados/contents.RDS") %>%
 #### emergencia
 
 df_emergencia <- df %>% 
-  filter(str_detect(corpo, "situação de emergência|Situação de emergência"))
+  filter(str_detect(corpo, "situação de emergência|Situação de emergência|enchente")) %>% 
+  filter(!str_detect(corpo, "seca")) 
+  
 
 ## testando: 
 
@@ -79,5 +81,5 @@ for (i in 1:nrow(text)){
 tbl <- result %>% 
   plyr::ldply(data.frame)
 
-write_rds(result, "Downloads/textos_jornal.RDS")
+# write_rds(result, "Downloads/textos_jornal.RDS")
 
