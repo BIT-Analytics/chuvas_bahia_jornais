@@ -30,3 +30,4 @@ tbl <- db %>%
   mutate(Registro = dmy(Registro)) %>% 
   mutate(ano = year(Registro))
 
+write_rds(tbl, "dados/defesa/dados_totais.rds")
